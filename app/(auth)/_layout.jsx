@@ -2,7 +2,12 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import {StatusBar} from 'expo-status-bar'
 import { Stack } from 'expo-router'
+import { useGlobalContext } from '../../context/GlobalProvider'
+
 const AuthLayout = () => {
+  const { loading, isLogged } = useGlobalContext();
+
+  if (!loading && isLogged) return <Redirect href="/home" />;
   return (
     <>
     <Stack>
@@ -24,4 +29,4 @@ const AuthLayout = () => {
   )
 }
 
-export default AuthLayout
+export default AuthLayout;

@@ -5,10 +5,12 @@ import { ScrollView } from 'react-native'
 import { images } from '../../constants'
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { getCurrentUser, signIn } from '../../lib/appwrite'
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignIn = () => {
+  const { setUser, setIsLogged } = useGlobalContext();
   const [form, setForm] =useState({
     email:"",
     password:""
@@ -25,7 +27,7 @@ const SignIn = () => {
         await signIn(form.email, form.password)
         const result = await getCurrentUser();
         setUser(result);
-        setIsLoggedIn(true);
+        setIsLogged(true);
         Alert.alert("Success", "User signed in successfully");
         router.replace('/home')
       } catch (error) {
@@ -53,8 +55,7 @@ const SignIn = () => {
           value= {form.password}
           handleChangeText={(e)=> setForm({ ...form,password:e})}
           otherStyles='mt-7'
-          keyboardType="password"
-          />
+                />
           <CustomButton
            title="Sign In"
            handlePress={submit}
